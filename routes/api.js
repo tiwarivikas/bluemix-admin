@@ -97,7 +97,7 @@ router.get('/spaceapps/:space_id', function (req, res, next) {
     });
 });
 
-/* GET Route for an App */
+/* GET Route URL for App ID*/
 router.get('/route/:app_id', function (req, res, next) {
     //initialize login to Bluemix
     cfUtils.init_login(function () {

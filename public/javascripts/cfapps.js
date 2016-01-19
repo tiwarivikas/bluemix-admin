@@ -1,3 +1,4 @@
+//AJAX Loader for all Ajax calls
 $(document).ajaxSend(function (event, request, settings) {
     $('#loading-indicator').show();
 });
