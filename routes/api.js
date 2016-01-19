@@ -97,6 +97,26 @@ router.get('/spaceapps/:space_id', function (req, res, next) {
     });
 });
 
+/* GET Route for an App */
+router.get('/route/:app_id', function (req, res, next) {
+    //initialize login to Bluemix
+    cfUtils.init_login(function () {
+        var cfApps = new cflib.Apps;
+        cfApps.setEndPoint(endpoint);
+        cfApps.getAppRoutes(global.token_type, global.access_token, req.params.app_id)
+            .then(function (result) {
+                var tmp = "{\"url\": \"http://" + result.resources[0].entity.host + ".mybluemix.net\"}";
+                res.json(JSON.parse(tmp));
+                //res.json(result);
+            }).catch(function (reason) {
+                console.error("Error: " + reason);
+            });
+    });
+
+    // res.send('respond with a resource');
+});
+
+
 //NOT WORKING
 router.get('/defaults', function (req, res, next) {
     cfUtils.init_login(function () {

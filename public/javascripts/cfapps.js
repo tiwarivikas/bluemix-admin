@@ -44,6 +44,21 @@ var performAppAction = function(action, guid) {
     });
 }
 
+var openAppinNewTab = function (guid) {
+    $.ajax({
+        url: "/api/route/" + guid,
+        success: function (result) {
+            //console.log(result.url);
+            OpenInNewTab(result.url);
+        }
+    });
+}
+
+function OpenInNewTab(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
+}
+
 var loadcfapps = function(defaultCFSpace) {
     $.ajax({
         url: "/api/spaceapps/" + defaultCFSpace, success: function (result) {
@@ -63,12 +78,16 @@ var loadcfapps = function(defaultCFSpace) {
                     (item.entity.state == 'STARTED' ? 'state-running' : 'state-stopped') + "'>" +
                     "<td><p id='" + item.metadata.guid +"' class='fa fa-circle' style='color:" +
                     (item.entity.state == 'STARTED' ? 'green' : 'firebrick') + "'>  </p> " +
-                    item.entity.name + "</td>" +
+                    item.entity.name +
+                    (item.entity.state == 'STARTED' ? " <a class='fa fa-external-link' href='#' onClick=openAppinNewTab('" + item.metadata.guid + "')></a>" : "") +
+                    "</td>" +
                     "<td>" + item.entity.memory + " MB *" + item.entity.instances + "</td><td>" +
                     jQuery.trim(buildpack).substring(0, 30).trim(this) + "..." + "</td>" +
                     "<td style='font-size: 20px'>" +
-                    (item.entity.state != 'STARTED' ? "<a href='#' onclick=performAppAction('start','" + item.metadata.guid + "')><p class='fa fa-play-circle-o' style='color:green'> </p></a>" :
-                        "<a href='#' onclick=performAppAction('stop','" + item.metadata.guid + "')> <p class='fa fa-dot-circle-o' style='color:firebrick'> </p></a> ") +
+                    (item.entity.state != 'STARTED' ? "<a href='#' onclick=performAppAction('start','" + item.metadata.guid + "')>" +
+                    "<p class='fa fa-play-circle-o' style='color:green'> </p></a>" :
+                    "<a href='#' onclick=performAppAction('stop','" + item.metadata.guid + "')> " +
+                    "<p class='fa fa-dot-circle-o' style='color:firebrick'> </p></a> ") +
                     " <a href='#'><p class='fa fa-trash-o' style='color:red'> </p></a></td></tr>";
                 $(line).appendTo('#cfapps');
             });
