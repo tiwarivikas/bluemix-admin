@@ -18,6 +18,7 @@ var routes = require('./routes/index');
 var cfapps = require('./routes/cfapps');
 var api = require('./routes/api');
 var mobileApp = require('./routes/mbapp');
+var testpage = require('./routes/testpage');
 var openIdConnect = require('passport-idaas-openidconnect');
 
 var app = express();
@@ -111,6 +112,8 @@ app.use('/', routes);
 app.use('/cfapps', ensureAuthenticated, cfapps);
 app.use('/api', ensureAuthenticated, api);
 app.use('/mbapp', mobileApp);
+app.use('/testpage', testpage);
+//app.use('/testpage', testpage);
 
 app.get('/hello', ensureAuthenticated, function (req, res) {
     res.send('Hello, ' + req.user['id'] + '!');
