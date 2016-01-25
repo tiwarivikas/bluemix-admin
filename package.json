@@ -17,6 +17,7 @@
     "fs-sync": "^1.0.1",
     "iws-light": "https://start.wa.ibmserviceengage.com/bluemix/iws-light.tgz",
     "morgan": "~1.6.1",
+    "nano": "^6.2.0",
     "passport": "^0.3.2",
     "passport-idaas-openidconnect": "^1.0.0",
     "properties-parser": "^0.3.1",
