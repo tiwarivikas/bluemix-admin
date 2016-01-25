@@ -13,10 +13,10 @@ router.use(function timeLog(req, res, next) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('cfapps', {title: 'Bluemix Admin 0.1'});
+    res.render('cfapps', {title: 'Bluemix Admin'});
 });
 router.get('/cfapps.html', function (req, res, next) {
-    res.render('cfapps', {title: 'Bluemix Admin 0.1'});
+    res.render('cfapps', {title: 'Bluemix Admin'});
 });
 
 

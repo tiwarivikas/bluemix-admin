@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include partials/template/head.ejs %>
+</head>
+<body>
+
+
+<div class="container">
+    <% include partials/template/header.ejs %>
+    <div class="wrapper">
+        <% include partials/template/nav.ejs %>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Docs - Application Scheduler</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>Save 50% of your Bluemix Runtime Cost for Development!</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                The application provides capability to specify Working Hours for Development team.
+                            </p>
+                            <ul>
+                                <li><p>After Office Hours, this app will stop all applications running in 'DEV' space in
+                                        Bluemix. </p></li>
+                                <li><p>Thus, you don't have to pay for the runtime when noone is actually using it.</p>
+                                </li>
+                                <li><p>Next morning, you can start multiple apps manually/automatically using this
+                                        App.</p></li>
+                                <li><p>Control your Bluemix Applications from this application !</p></li>
+                                <li><p>Schedule your applications in a particular Space to automatically Stop after
+                                        Office Hours !! </p></li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            Important: Lock the App if you don't want it to be stopped as per the Schedule.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <% include partials/template/footer.ejs %>
+</div>
+<% include partials/template/jsdefaults.ejs %>
+<script>
+    $(document).ready(function () {
+        $('#nav-scheduler').attr("class", "active");
+    });
+</script>
+</body>
+</html>

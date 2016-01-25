@@ -60,6 +60,43 @@ function OpenInNewTab(url) {
     win.focus();
 }
 
+function createTableRow(item) {
+    line = "";
+    try {
+        var buildpack = item.entity.detected_buildpack;
+    } catch (e) {
+        var buildpack = item.entity.buildpack;
+    }
+
+    var line =
+        "<tr class='" + (item.entity.state == 'STARTED' ? 'state-running' : 'state-stopped') + "'>" +
+        "<td>" + //App Name and running Status
+        "<p id='" + item.metadata.guid + "' class='fa fa-circle' style='color:" + (item.entity.state == 'STARTED' ? 'green' : 'firebrick') + "'>  </p> " +
+        item.entity.name + //Link to open in New Tab
+        (item.entity.state == 'STARTED' ? " <a class='fa fa-external-link' href='#' onClick=openAppinNewTab('" + item.metadata.guid + "')></a>" : "") +
+        "</td>" +
+        "<td>" + item.entity.memory + " MB *" + item.entity.instances + //Memory and Instance Details
+        "</td>" +
+        "<td>" +
+        jQuery.trim(buildpack).substring(0, 30).trim(this) + "..." +
+        "</td>" +
+        "<td style='font-size: 20px'>" +
+        (item.entity.state != 'STARTED' ?
+            "<a href='#' onclick=performAppAction('start','" + item.metadata.guid + "') class='tooltip-button'>" + //Start App Action Button
+            "<p class='fa fa-play-circle-o ' style='color:green' data-toggle='tooltip' data-placement='left' title='' data-original-title='Start Application'> " +
+            "</p>" +
+            "</a>" :
+            "<a href='#' onclick=performAppAction('stop','" + item.metadata.guid + "') class='tooltip-button'> " + //Stop App Action Button
+            "<p class='fa fa-dot-circle-o' style='color:firebrick' data-toggle='tooltip' data-placement='left' title='' data-original-title='Stop Application'> </p>" +
+            "</a> "
+        ) +
+        " <a href='#' class='tooltip-button'><p class='fa fa-trash-o' style='color:red' data-toggle='tooltip' data-placement='right' title='' data-original-title='Delete DISABLED'> </p></a>" + //Delete App Action Button
+        "</td>" +
+        "</tr>";
+
+    return line;
+}
+
 var loadcfapps = function(defaultCFSpace) {
     $.ajax({
         url: "/api/spaceapps/" + defaultCFSpace, success: function (result) {
@@ -70,27 +107,12 @@ var loadcfapps = function(defaultCFSpace) {
             var arrResults = $(result.resources);
             arrResults.each(function (count) {
                 var item = arrResults[count];
-                try {
-                    var buildpack = item.entity.detected_buildpack;
-                } catch (e) {
-                    var buildpack = item.entity.buildpack;
-                }
-                var line = "<tr class='" +
-                    (item.entity.state == 'STARTED' ? 'state-running' : 'state-stopped') + "'>" +
-                    "<td><p id='" + item.metadata.guid +"' class='fa fa-circle' style='color:" +
-                    (item.entity.state == 'STARTED' ? 'green' : 'firebrick') + "'>  </p> " +
-                    item.entity.name +
-                    (item.entity.state == 'STARTED' ? " <a class='fa fa-external-link' href='#' onClick=openAppinNewTab('" + item.metadata.guid + "')></a>" : "") +
-                    "</td>" +
-                    "<td>" + item.entity.memory + " MB *" + item.entity.instances + "</td><td>" +
-                    jQuery.trim(buildpack).substring(0, 30).trim(this) + "..." + "</td>" +
-                    "<td style='font-size: 20px'>" +
-                    (item.entity.state != 'STARTED' ? "<a href='#' onclick=performAppAction('start','" + item.metadata.guid + "')>" +
-                    "<p class='fa fa-play-circle-o' style='color:green'> </p></a>" :
-                    "<a href='#' onclick=performAppAction('stop','" + item.metadata.guid + "')> " +
-                    "<p class='fa fa-dot-circle-o' style='color:firebrick'> </p></a> ") +
-                    " <a href='#'><p class='fa fa-trash-o' style='color:red'> </p></a></td></tr>";
+                var line = createTableRow(item);
                 $(line).appendTo('#cfapps');
+            });
+            $('.tooltip-button').tooltip({
+                selector: "[data-toggle=tooltip]",
+                container: "body"
             });
             //initialize footer
             var line =  "<tfoot><tr><th>Name</th><th>Memory</th><th>Runtime</th><th>Actions</th></tr></tfoot>"
