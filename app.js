@@ -39,7 +39,7 @@ app.use('/db', require('./routes/db'));
 //Authentication and SSO Callback
 app.get('/auth/sso/callback', function (req, res, next) {
     var redirect_url = req.session.originalUrl;
-    passport.authenticate('openidconnect', {
+    global.passport.authenticate('openidconnect', {
         successRedirect: redirect_url,
         failureRedirect: '/failure',
     })(req, res, next);
